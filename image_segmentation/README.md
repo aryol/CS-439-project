@@ -5,12 +5,16 @@
 
 HC18 challenge [description](https://hc18.grand-challenge.org/) 
 
-Dataset can be downloaded [here](https://zenodo.org/record/1327317#.YqxGS3ZBxPY)
 
----
-Here we describe the code used to implement the **experiment III-C** of the report which corresponds to image segmentation.
+## **How to run the code**
 
-**The code is divided into 4 `jupyter notebooks`:**
+Please download the dataset at [here](https://zenodo.org/record/1327317#.YqxGS3ZBxPY). 
+Ensure that the data folders and files have the following structure:
+
+>./Data/data_from_zenodo_org_record_1327317/training_set
+>./Data/data_from_zenodo_org_record_1327317/training_set_pixel_size_and_HC.csv
+
+Run the 4 `jupyter notebooks` in the following order:
 
 >  1.   Pre-processing HC18 Dataset
 >  2.   Training a DNN for HC18 segmentation task
@@ -18,15 +22,15 @@ Here we describe the code used to implement the **experiment III-C** of the repo
 >  4.   Results visualization for HC18 segmentation task
 
 
-The 4 notebooks should be run in the above order. The notebook 2 takes several hours to achieve its run due to slow speed of neural network training.
+<font size="1">* The second notebook takes several hours to achieve its run due to slow speed of neural network training.
 
+<font size="1">* The reason of this structure is the important dataset size and slow processing speed. In order to save time, we had to save data and results at different steps and re-open it afterwards for further analysis. Moreover, the `.ipynb` files distinguish very different substeps of the experiments and we think the code is more understandable like this.
 
-<font size="2">* The reason of this structure is the important dataset size and slow processing speed. In order to save time, we had to save data and results at different steps and re-open it afterwards for further analysis. Moreover, the `.ipynb` files distinguish very different substeps of the experiments and we think the code is more understandable like this.
+<font size="1">* We include all the functions except those comming from `pip` libraries, into the `.ipynb` files. 
 
-<font size="2">* We include all the functions except those comming from `pip` libraries, into the `.ipynb` files. 
-
----
+## **Notebooks overview**
   
+Here we describe the code used to implement the **experiment III-C** of the report.
   
 ### **Pre-processing HC18 Dataset**
 
@@ -455,7 +459,6 @@ def save_summaries(PATH, Ferr, ACC_V, ACC_T, EPS_V, EPS_T):
 
 **1.   The frequency heatmaps (figure 3 of the report)** 
   
- <img src="./paper-figs/heatmaps.png" alt="drawing" style="width:500px;"/>
 
 <details>
   <summary>Function headers</summary>
@@ -491,7 +494,7 @@ def plot_barplots(models_name, models_Ferr,
 
 ```
 </details>
-
+<img src="./paper-figs/heatmaps.png" alt="drawing" style="width:1000px;"/>
 
 **2.   The linear regression and regression weights table**
 
@@ -516,8 +519,6 @@ def print_scores_table(NAME, ACC_V, ACC_T, Ferr, epoch_0=0,epoch_f=100):
 **3.   The accuracy vs epochs plots (figure 4 of the report)**
   
  
- <img src="./paper-figs/acc.png" alt="drawing" style="width:300px;"/>
-
 
 <details>
   <summary>Function headers</summary>
@@ -534,10 +535,12 @@ def plot_accuracies(NAME, ACC_V, ACC_T, epoch_0=0,epoch_f=100):
     '''
 ```
 </details>
+ 
+ <img src="./paper-figs/acc.png" alt="drawing" style="width:600px;"/>
+
 
 **5.   The validation accuracy vs frequency error at index 5 (figure 5 of the report)**
 
- <img src="./paper-figs/corr.png" alt="drawing" style="width:300px;"/>
   
 <details>
   <summary>Function headers</summary>
@@ -556,5 +559,6 @@ def plot_freq(NAME, ACC_V, Ferr, index, epoch_0=0,epoch_f=100):
 ```
 </details>
  
+  <img src="./paper-figs/corr.png" alt="drawing" style="width:600px;"/>
   
  
