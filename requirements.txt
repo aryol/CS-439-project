@@ -4,3 +4,9 @@ scipy
 matplotlib
 seaborn
 pandas
+nfft
+pytorch-optimizer
+torch_optimizer
+PIL
+torchvision
+sklearn
