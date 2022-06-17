@@ -3,9 +3,12 @@ import numpy as np
 import torch
 import scipy.fft
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-from SCRNOptimizer import SCRNOptimizer
-from adahessian import Adahessian
 import os
+import sys
+sys.path.append(".")
+sys.path.append("..")
+from optimizers.adahessian import Adahessian
+from optimizers.SCRNOptimizer import SCRNOptimizer
 
 # Setting the device of the experiment
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -19,10 +22,33 @@ frequencies = np.array([1., 2., 4., 8.])
 
 # Calculate the target function which is a sum of sinusoid signals
 def f(x, amplitudes, frequencies, phases):
+    """
+    This function calculates sum of sinusoid signal
+    Args:
+        x: the points in which signal is evaluated
+        amplitudes: amplitudes of the sinusoid signals
+        frequencies: frequencies of the sinusoid signals
+        phases: phases of the sinusoid signals
+
+    Returns:
+        sum of sinusoid terms. for an example, take a look at the function reported in the project's report
+
+    """
     return (np.sin(2 * np.pi * np.outer(x, frequencies) + phases) * amplitudes).sum(axis=1)
 
 
 def train_eval(args):
+    """
+    This function does the training of the model based on the arguments.
+    Args:
+        args: arguments determine all of the training such as batch size, optimizer (and its hyperparameters), and ...
+        For a detailed view on args see the main part.
+
+    Returns:
+        a log of time steps and losses and frequencies of the function represented by the neural network in different epochs
+
+    """
+    # defining the model
     model = torch.nn.Sequential(
         torch.nn.Linear(1, 256),
         torch.nn.ReLU(),
@@ -34,6 +60,7 @@ def train_eval(args):
         torch.nn.ReLU(),
         torch.nn.Linear(256, 1)).to(device)
 
+    # creating the training x and y = f(x)
     x = np.linspace(0, 1, args.samples, endpoint=False).astype(np.float32)
     y = f(x, amplitudes, frequencies, phases).astype(np.float32)
     x = x.reshape((-1, 1))
@@ -61,6 +88,7 @@ def train_eval(args):
     frequenices_while_learning = []
     time_stamps = []
     losses = []
+    # Main training loop
     for epoch in range(args.epochs):
         model.train()
         train_loss = 0.0
@@ -76,6 +104,7 @@ def train_eval(args):
             with torch.no_grad():
                 if epoch % min(args.epochs // 20, 1) == 0 or epoch == args.epochs - 1:
                     print(f"Epoch: {epoch}, \t Training Loss: {train_loss.cpu().detach().numpy() / len(train_dl)}")
+                # Doing DFT to determine frequencies of the function represented by the neural network
                 freq = scipy.fft.fft(model(train_x).cpu().detach().numpy().ravel())
                 freq = np.abs(freq)[:args.samples // 2]
                 frequenices_while_learning.append(freq)
@@ -85,6 +114,7 @@ def train_eval(args):
 
 
 if __name__ == '__main__':
+    # All arguments of the training
     parser = ArgumentParser(description="Training script for synthetic experiments of the report",
                             formatter_class=ArgumentDefaultsHelpFormatter)
     parser.add_argument('-samples', default=200, type=int, help='number of equally spaced samples in [0,1]')
@@ -103,6 +133,7 @@ if __name__ == '__main__':
         print("The optimizer is not valid.")
         exit()
 
+    # Setting random seeds to ensure reproducibility of our results.
     random.seed(args.seed)
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
@@ -119,6 +150,7 @@ if __name__ == '__main__':
     print("TRAINING LOG")
     time, loss, freq = train_eval(args)
 
+    # Saving the training data to be later analyzed.
     os.makedirs('./results_synthetic', exist_ok=True)
     saved_data = {
         'time': time,

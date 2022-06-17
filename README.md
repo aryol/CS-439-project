@@ -10,7 +10,8 @@ Furthermore, we relate our observations in the frequency domain with the general
 All of the implementation has been done in Python and PyTorch. 
 
 
-#Experiments & Repository Structure
+# Experiments & Repository Structure
+
 ## Experiments
 Our project includes three main independent experiments. More precisely, we do frequency analysis for three tasks:
 * **Synthetic task.** In this task we consider learning a function which is sum of sinusoid signals.
