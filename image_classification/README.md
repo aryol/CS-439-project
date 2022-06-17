@@ -1,15 +1,3 @@
-# Mnist training
-
-This repository aims to include mnist training with frequency analysis
-Current projects files include:
-- Jupyter notebook having the train, validation and test of frequency analysis in `optimization_mnist.py`
-- SCRN Optimizer implemented by us in pytorch (`SCRNOptimizer.py`) from the paper: https://proceedings.neurips.cc/paper/2018/file/db1915052d15f7815c8b88e879465a1e-Paper.pdf
-
-
-- A customized dataset for Mnist loading in `custome_dataset.py`
-
-- A utility file for seed setting in `determinestic.py`
-
 # Structure of the files related to classification of MNIST digits and their reproducibility
 
 ## Structure
