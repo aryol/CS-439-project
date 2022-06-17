@@ -1,13 +1,13 @@
 
 # **Frequency analysis of HC18 dataset segmentation by a DNN**
 
+ <img src="./paper-figs/HC18.jpeg.jpeg" alt="drawing" style="width:800px;"/>
+
 HC18 challenge [description](https://hc18.grand-challenge.org/) 
+
 Dataset can be downloaded [here](https://zenodo.org/record/1327317#.YqxGS3ZBxPY)
 
-
 ---
-
-
 Here we describe the code used to implement the **experiment III-C** of the report which corresponds to image segmentation.
 
 **The code is divided into 4 `jupyter notebooks`:**
@@ -454,6 +454,8 @@ def save_summaries(PATH, Ferr, ACC_V, ACC_T, EPS_V, EPS_T):
 **Description:** In this notebook, we provide the codes for:
 
 **1.   The frequency heatmaps (figure 3 of the report)** 
+  
+ <img src="./paper-figs/heatmaps.png" alt="drawing" style="width:500px;"/>
 
 <details>
   <summary>Function headers</summary>
@@ -512,6 +514,10 @@ def print_scores_table(NAME, ACC_V, ACC_T, Ferr, epoch_0=0,epoch_f=100):
 
 
 **3.   The accuracy vs epochs plots (figure 4 of the report)**
+  
+ 
+ <img src="./paper-figs/acc.png" alt="drawing" style="width:300px;"/>
+
 
 <details>
   <summary>Function headers</summary>
@@ -527,11 +533,12 @@ def plot_accuracies(NAME, ACC_V, ACC_T, epoch_0=0,epoch_f=100):
     index: the frequency index against which the accuracy is visualized 
     '''
 ```
-
+</details>
 
 **5.   The validation accuracy vs frequency error at index 5 (figure 5 of the report)**
 
-
+ <img src="./paper-figs/corr.png" alt="drawing" style="width:300px;"/>
+  
 <details>
   <summary>Function headers</summary>
   
